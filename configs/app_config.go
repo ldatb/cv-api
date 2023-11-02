@@ -4,9 +4,9 @@
 package configs
 
 import (
+	"log"
 	"os"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
@@ -17,7 +17,7 @@ type Configs struct {
 }
 
 // Load the app's configurations with Viper
-func AppConfig(logger *log.Logger) Configs {
+func AppConfig() Configs {
 	// Set the config file name, kind and path
 	//viper.SetConfigName("config")
 	//viper.SetConfigType("yml")
@@ -37,7 +37,7 @@ func AppConfig(logger *log.Logger) Configs {
 
 	var config Configs
 	if err := viper.Unmarshal(&config); err != nil {
-		logger.Errorf("Unable to decode config into struct, %v", err)
+		log.Fatalf("Unable to decode config into struct, %v", err)
 		os.Exit(1)
 	}
 

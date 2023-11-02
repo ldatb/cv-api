@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	logger := utils.CreateLogger()
 	config := configs.AppConfig()
+	logger := utils.CreateLogger()
 	server.Start(config.API_PORT, logger)
 }

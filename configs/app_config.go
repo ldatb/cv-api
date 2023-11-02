@@ -5,7 +5,6 @@ package configs
 
 import (
 	"log"
-	"os"
 
 	"github.com/spf13/viper"
 )
@@ -13,32 +12,42 @@ import (
 // Define the possible configurations here.
 // Don't use the internal/models folder as that is reserved for DB models.
 type Configs struct {
-	API_PORT int
+	API_PORT   int
+	LOG_LEVEL  string
+	LOG_OUTPUT string
 }
+
+// Defaults values for the configs
+const (
+	DEFAULT_API_PORT   = 3000
+	DEFAULT_LOG_LEVEL  = "info"
+	DEFAULT_LOG_OUTPUT = ""
+)
 
 // Load the app's configurations with Viper
 func AppConfig() Configs {
 	// Set the config file name, kind and path
-	//viper.SetConfigName("config")
-	//viper.SetConfigType("yml")
-	//viper.AddConfigPath(".")
+	viper.SetConfigName("app")
+	viper.SetConfigType("env")
+	viper.AddConfigPath(".")
 
 	// Enable Viper to read Environment Variables
 	viper.AutomaticEnv()
 
 	// Set default variables
-	viper.SetDefault("API_PORT", 3000)
+	viper.SetDefault("API_PORT", DEFAULT_API_PORT)
+	viper.SetDefault("LOG_LEVEL", DEFAULT_LOG_LEVEL)
+	viper.SetDefault("LOG_OUTPUT", DEFAULT_LOG_OUTPUT)
 
 	// Try to load the config
-	//if err := viper.ReadInConfig(); err != nil {
-	//	logger.Errorf("Error reading config file, %v", err)
-	//	os.Exit(1)
-	//}
+	if err := viper.ReadInConfig(); err != nil {
+		log.Fatalf("Error reading config file, %v", err)
+	}
 
+	// Parse configs into the struct
 	var config Configs
 	if err := viper.Unmarshal(&config); err != nil {
 		log.Fatalf("Unable to decode config into struct, %v", err)
-		os.Exit(1)
 	}
 
 	return config

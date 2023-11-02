@@ -52,13 +52,13 @@ func CreateLogger(logLevel string, logOutput string) *log.Logger {
 
 	// Log level config
 	loggerLogLevel := getLogLevel(logLevel, logger)
-	logger.Debugf("Setting log level to: %s", loggerLogLevel)
+	logger.Infof("Setting log level to: %s", loggerLogLevel)
 	logger.SetLevel(loggerLogLevel)
 
 	// Log output config
 	if logOutput != "" {
 		writter := createLogFile(logOutput, logger)
-		logger.Debugf("Setting log output to %s", logOutput)
+		logger.Infof("Setting log output to %s", logOutput)
 		logger.SetOutput(writter)
 	} else {
 		logger.Debug("Setting log output to stdout")

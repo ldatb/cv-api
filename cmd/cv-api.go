@@ -11,6 +11,6 @@ import (
 
 func main() {
 	config := configs.AppConfig()
-	logger := utils.CreateLogger()
+	logger := utils.CreateLogger(config.LOG_LEVEL, config.LOG_OUTPUT)
 	server.Start(config.API_PORT, logger)
 }

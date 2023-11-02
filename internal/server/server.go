@@ -22,6 +22,7 @@ func Start(port int, logger *log.Logger) {
 	app := fiber.New(config)
 
 	// Routes
+	routes.PublicRoutes(app)
 	routes.RouteNotFound(app)
 
 	// Start API

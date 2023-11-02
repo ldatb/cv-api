@@ -5,7 +5,6 @@ package server
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/ldatb/cv-api/configs"
 	"github.com/ldatb/cv-api/internal/routes"
@@ -27,7 +26,6 @@ func Start(port int, logger *log.Logger) {
 
 	// Start API
 	if err := app.Listen(fmt.Sprintf(":%d", port)); err != nil {
-		logger.Errorf("Oops... Looks like the server failed to start! Reason: %v", err)
-		os.Exit(1)
+		logger.Fatalf("Oops... Looks like the server failed to start! Reason: %v", err)
 	}
 }

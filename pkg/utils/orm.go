@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/ldatb/cv-api/internal/models"
+	"github.com/ldatb/cv-api/internal/utils"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	gorm_logger "gorm.io/gorm/logger"
@@ -77,10 +78,10 @@ func makeMigrations(db *gorm.DB) error {
 // This is by no means the correct way to do this, but it works for the purpose of this project
 func insertData(db *gorm.DB) error {
 	// Get all data
-	experienceData := GetExperienceData()
-	projectsData := GetProjectsData()
-	coursesData := GetCoursesData()
-	educationData := GetEducationData()
+	experienceData := utils.GetExperienceData()
+	projectsData := utils.GetProjectsData()
+	coursesData := utils.GetCoursesData()
+	educationData := utils.GetEducationData()
 
 	// Invalidate all data first
 	db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&models.Experience{})

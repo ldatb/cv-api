@@ -5,8 +5,8 @@ package main
 
 import (
 	"github.com/ldatb/cv-api/configs"
-	"github.com/ldatb/cv-api/internal/server"
-	"github.com/ldatb/cv-api/internal/utils"
+	"github.com/ldatb/cv-api/pkg/server"
+	"github.com/ldatb/cv-api/pkg/utils"
 )
 
 func main() {

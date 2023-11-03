@@ -8,7 +8,7 @@ import (
 
 	"github.com/ldatb/cv-api/configs"
 	"github.com/ldatb/cv-api/internal/routes"
-	"github.com/ldatb/cv-api/internal/utils"
+	"github.com/ldatb/cv-api/pkg/utils"
 
 	"github.com/gofiber/fiber/v2"
 )

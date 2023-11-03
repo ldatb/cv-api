@@ -5,7 +5,7 @@ package queries
 
 import (
 	"github.com/ldatb/cv-api/internal/models"
-	"github.com/ldatb/cv-api/internal/utils"
+	"github.com/ldatb/cv-api/pkg/utils"
 )
 
 // Get all projects data

@@ -14,12 +14,12 @@ RUN GOOS=linux go build -o /bin/api /cmd/cv-api.go
 FROM debian:bookworm-slim
 
 # Set workdir
-WORKDIR /
+WORKDIR /app
 
 # Copy application binary
-COPY --from=build-binary /bin/api /api
+COPY --from=build-binary /bin/api /app/api
 
 # Default port is 3000, so expose it
 EXPOSE 3000
 
-ENTRYPOINT [ "/api" ]
+ENTRYPOINT [ "/app/api" ]

@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15.4
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=S3cretP@ss
+      - POSTGRES_USER=gorm
+      - POSTGRES_DB=api_db

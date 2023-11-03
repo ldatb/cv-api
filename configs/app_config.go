@@ -43,8 +43,8 @@ func AppConfig() models.Configs {
 	viper.SetDefault("DB_NAME", DEFAULT_DB_NAME)
 
 	// Try to load the config
-	if err := viper.ReadInConfig(); err != nil {
-		log.Fatalf("Error reading config file, %v", err)
+	if err := viper.ReadInConfig(); err == nil {
+		log.Printf("Error reading config file: %v. Using default configurationsdoc", err)
 	}
 
 	// Parse configs into the struct

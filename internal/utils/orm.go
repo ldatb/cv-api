@@ -5,16 +5,19 @@ package utils
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/ldatb/cv-api/internal/models"
-	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	gorm_logger "gorm.io/gorm/logger"
 )
 
-// Creates a connection with the database, makes the migrations and insert data
-func InitializeDatabase(logger *log.Logger, config models.DatabaseConfigs) *gorm.DB {
+// Initialize global connection
+var DB models.DBInstance
+
+// Creates a connection with the database
+func ConnectToDB(config models.DatabaseConfigs) {
 	// Load configuration
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable",
 		config.DB_HOST,
@@ -28,25 +31,45 @@ func InitializeDatabase(logger *log.Logger, config models.DatabaseConfigs) *gorm
 		Logger: gorm_logger.Default.LogMode(gorm_logger.Silent),
 	})
 	if err != nil {
-		logger.Fatalf("Unable to connect to database. Error: %v", err)
+		Logger.Fatalf("Unable to connect to database. Error: %v", err)
 	}
 
+	// Configures connections
+	sqlDB, err := db.DB()
+	if err != nil {
+		Logger.Fatalf("Unable to get raw SQL connection. Error: %v", err)
+	}
+	sqlDB.SetMaxIdleConns(3)
+	sqlDB.SetMaxOpenConns(100)
+	sqlDB.SetConnMaxLifetime(time.Hour)
+
+	// Create global connection
+	DB = models.DBInstance{
+		Database: db,
+	}
+}
+
+// Makes the migrations and insert data
+func InitializeDatabase(config models.DatabaseConfigs) {
 	// Makes migrations
-	if err := makeMigrations(db); err != nil {
-		logger.Fatalf("Unable to make database migrations. Error: %v", err)
+	if err := makeMigrations(DB.Database); err != nil {
+		Logger.Fatalf("Unable to make database migrations. Error: %v", err)
 	}
 
 	// Insert data into database
-	if err := insertData(db); err != nil {
-		logger.Fatalf("Unable to insert data. Error: %v", err)
+	if err := insertData(DB.Database); err != nil {
+		Logger.Fatalf("Unable to insert data. Error: %v", err)
 	}
-
-	return db
 }
 
 // Makes initial migrations based on the models
 func makeMigrations(db *gorm.DB) error {
-	err := db.AutoMigrate(&models.Experience{}, &models.Projects{}, &models.Courses{}, &models.Education{})
+	err := db.AutoMigrate(
+		&models.Experience{},
+		&models.Projects{},
+		&models.Courses{},
+		&models.Education{},
+	)
 	return err
 }
 
@@ -59,24 +82,30 @@ func insertData(db *gorm.DB) error {
 	coursesData := GetCoursesData()
 	educationData := GetEducationData()
 
+	// Invalidate all data first
+	db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&models.Experience{})
+	db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&models.Projects{})
+	db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&models.Courses{})
+	db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&models.Education{})
+
 	// Insert experience data
-	if result := db.Create(experienceData); result.Error != nil {
-		return result.Error
+	if insert := db.Create(experienceData); insert.Error != nil {
+		return insert.Error
 	}
 
 	// Insert projects data
-	if result := db.Create(projectsData); result.Error != nil {
-		return result.Error
+	if insert := db.Create(projectsData); insert.Error != nil {
+		return insert.Error
 	}
 
 	// Insert courses data
-	if result := db.Create(coursesData); result.Error != nil {
-		return result.Error
+	if insert := db.Create(coursesData); insert.Error != nil {
+		return insert.Error
 	}
 
 	// Insert education data
-	if result := db.Create(educationData); result.Error != nil {
-		return result.Error
+	if insert := db.Create(educationData); insert.Error != nil {
+		return insert.Error
 	}
 
 	return nil

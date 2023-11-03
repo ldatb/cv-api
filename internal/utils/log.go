@@ -46,29 +46,30 @@ func createLogFile(logFile string, logger *log.Logger) io.Writer {
 	return io.MultiWriter(os.Stdout, file)
 }
 
+// Create a global instance of the logger
+var Logger *log.Logger
+
 // Creates an instance of a logrus logger
-func CreateLogger(logLevel string, logOutput string) *log.Logger {
-	logger := log.New()
+func CreateLogger(logLevel string, logOutput string) {
+	Logger = log.New()
 
 	// Log level config
-	loggerLogLevel := getLogLevel(logLevel, logger)
-	logger.Infof("Setting log level to: %s", loggerLogLevel)
-	logger.SetLevel(loggerLogLevel)
+	loggerLogLevel := getLogLevel(logLevel, Logger)
+	Logger.Infof("Setting log level to: %s", loggerLogLevel)
+	Logger.SetLevel(loggerLogLevel)
 
 	// Log output config
 	if logOutput != "" {
-		writter := createLogFile(logOutput, logger)
-		logger.Infof("Setting log output to %s", logOutput)
-		logger.SetOutput(writter)
+		writter := createLogFile(logOutput, Logger)
+		Logger.Infof("Setting log output to %s", logOutput)
+		Logger.SetOutput(writter)
 	} else {
-		logger.Debug("Setting log output to stdout")
-		logger.SetOutput(os.Stdout)
+		Logger.Debug("Setting log output to stdout")
+		Logger.SetOutput(os.Stdout)
 	}
 
 	// Log formatter configs
-	logger.SetFormatter(&log.TextFormatter{
+	Logger.SetFormatter(&log.TextFormatter{
 		FullTimestamp: true,
 	})
-
-	return logger
 }

@@ -15,11 +15,14 @@ func main() {
 	dbConfig := configs.GetDatabaseConfigs(config)
 
 	// Create a logger
-	logger := utils.CreateLogger(config.LOG_LEVEL, config.LOG_OUTPUT)
+	utils.CreateLogger(config.LOG_LEVEL, config.LOG_OUTPUT)
+
+	// Connect to DB
+	utils.ConnectToDB(dbConfig)
 
 	// Initialize the database: Make migrations and insert data
-	db := utils.InitializeDatabase(logger, dbConfig)
+	utils.InitializeDatabase(dbConfig)
 
 	// Start the API
-	server.Start(config.API_PORT, logger, db)
+	server.Start(config.API_PORT)
 }

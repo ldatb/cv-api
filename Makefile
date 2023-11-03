@@ -10,3 +10,6 @@ compile:
 	GOOS=linux GOARCH=amd64 go build -o bin/api-linux-amd64 cmd/cv-api.go
 	GOOS=windows GOARCH=arm go build -o bin/api-windows-arm cmd/cv-api.go
 	GOOS=windows GOARCH=amd64 go build -o bin/api-windows-amd64 cmd/cv-api.go
+
+build-image:
+	docker build -f deploy/docker/Dockerfile -t cv-api .

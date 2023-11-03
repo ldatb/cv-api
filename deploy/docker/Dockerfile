@@ -22,6 +22,4 @@ COPY --from=build-binary /bin/api /api
 # Default port is 3000, so expose it
 EXPOSE 3000
 
-USER nonroot:noonroot
-
 ENTRYPOINT [ "/api" ]

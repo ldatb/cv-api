@@ -6,18 +6,19 @@ package routes
 import (
 	"github.com/gofiber/fiber/v2"
 	controllers "github.com/ldatb/cv-api/internal/controllers"
-	"gorm.io/gorm"
 )
 
 // PublicRoutes func for describe group of public routes.
-func PublicRoutes(a *fiber.App, database *gorm.DB) {
+func PublicRoutes(a *fiber.App) {
 	// Create routes group
 	route := a.Group("/")
 
-	// Define all routes
-	route.Get("/", controllers.LandingPage)
-	//route.Get("/experience")
-	//route.Get("/projects")
-	//route.Get("/courses")
-	//route.Get("/education")
+	// "Landing page" route
+	route.Get("/", controllers.LandingPageController)
+
+	// Experience routes
+	route.Get("/experience/:id?", controllers.ExperienceController)
+	route.Get("/projects/:id?", controllers.ProjectsController)
+	route.Get("/courses/:id?", controllers.CoursesController)
+	route.Get("/education/:id?", controllers.EducationController)
 }

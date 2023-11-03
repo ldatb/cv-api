@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-configmap
+data:
+  app.env: |
+    API_PORT={{ .Values.conf.api.port }}
+    LOG_LEVEL={{ .Values.conf.api.log.level }}
+    LOG_OUTPUT="{{ .Values.conf.api.log.output }}"
+    DB_HOST={{ .Values.conf.db.host }}
+    DB_PORT={{ .Values.conf.db.port }}
+    DB_USER={{ .Values.conf.db.user }}
+    DB_PASSWORD={{ .Values.conf.db.password }}
+    DB_NAME={{ .Values.conf.db.name }}

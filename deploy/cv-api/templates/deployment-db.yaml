@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database-deployment
+  labels:
+    app: cv-api-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cv-api-db
+  template:
+    metadata:
+      labels:
+        app: cv-api-db
+    spec:
+      containers:
+      - name: database
+        image: {{ .Values.images.tags.postgres }}
+        env:
+          - name: POSTGRES_USER
+            value: {{ .Values.conf.db.user }}
+          - name: POSTGRES_PASSWORD
+            value: {{ .Values.conf.db.password }}
+          - name: POSTGRES_DB
+            value: {{ .Values.conf.db.name }}
+        ports:
+        - containerPort: {{ .Values.conf.db.port }}
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"

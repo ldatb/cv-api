@@ -1,0 +1,6 @@
+apiVersion: v2
+name: cv-api
+description: This project is an API that contains the information of my CV.
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

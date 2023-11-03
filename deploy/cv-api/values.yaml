@@ -1,0 +1,17 @@
+images:
+  tags:
+    api: lucasdatb/cv-api:latest
+    postgres: postgres:15.4
+
+conf:
+  api:
+    port: 3000
+    log:
+      level: info
+      output: ""
+  db:
+    host: "cv-api-db.default.svc.cluster.local"
+    port: 5432
+    user: gorm
+    password: "S3cretP@ssw0rd"
+    name: api_db

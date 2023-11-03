@@ -7,7 +7,13 @@ import (
 	"time"
 
 	pq "github.com/lib/pq"
+	"gorm.io/gorm"
 )
+
+// Database instance
+type DBInstance struct {
+	Database *gorm.DB
+}
 
 // Work experience
 type Experience struct {

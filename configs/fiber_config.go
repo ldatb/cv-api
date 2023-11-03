@@ -3,11 +3,16 @@
 // SPDX-License-Identifier: MIT
 package configs
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/bytedance/sonic"
+	"github.com/gofiber/fiber/v2"
+)
 
 // Configurations for the Fiber server
 func FiberConfig() fiber.Config {
 	return fiber.Config{
-		GETOnly: true,
+		JSONEncoder: sonic.Marshal,
+		JSONDecoder: sonic.Unmarshal,
+		GETOnly:     true,
 	}
 }

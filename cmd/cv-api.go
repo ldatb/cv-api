@@ -10,7 +10,16 @@ import (
 )
 
 func main() {
+	// Load configs
 	config := configs.AppConfig()
+	dbConfig := configs.GetDatabaseConfigs(config)
+
+	// Create a logger
 	logger := utils.CreateLogger(config.LOG_LEVEL, config.LOG_OUTPUT)
-	server.Start(config.API_PORT, logger)
+
+	// Initialize the database: Make migrations and insert data
+	db := utils.InitializeDatabase(logger, dbConfig)
+
+	// Start the API
+	server.Start(config.API_PORT, logger, db)
 }

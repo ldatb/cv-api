@@ -5,11 +5,11 @@ package models
 
 // All possible configs for the app
 type Configs struct {
-	API_PORT    int
+	API_PORT    string
 	LOG_LEVEL   string
 	LOG_OUTPUT  string
 	DB_HOST     string
-	DB_PORT     int
+	DB_PORT     string
 	DB_USER     string
 	DB_PASSWORD string
 	DB_NAME     string
@@ -18,7 +18,7 @@ type Configs struct {
 // Only database configs
 type DatabaseConfigs struct {
 	DB_HOST     string
-	DB_PORT     int
+	DB_PORT     string
 	DB_USER     string
 	DB_PASSWORD string
 	DB_NAME     string

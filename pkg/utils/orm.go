@@ -20,7 +20,7 @@ var DB models.DBInstance
 // Creates a connection with the database
 func ConnectToDB(config models.DatabaseConfigs) {
 	// Load configuration
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable",
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
 		config.DB_HOST,
 		config.DB_USER,
 		config.DB_PASSWORD,

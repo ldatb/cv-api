@@ -14,7 +14,7 @@ import (
 )
 
 // Initialize the API
-func Start(port int) {
+func Start(port string) {
 	// Get Fiber configs
 	config := configs.FiberConfig()
 
@@ -26,7 +26,7 @@ func Start(port int) {
 	routes.RouteNotFound(app)
 
 	// Start API
-	if err := app.Listen(fmt.Sprintf(":%d", port)); err != nil {
+	if err := app.Listen(fmt.Sprintf(":%s", port)); err != nil {
 		utils.Logger.Fatalf("Oops... Looks like the server failed to start! Reason: %v", err)
 	}
 }

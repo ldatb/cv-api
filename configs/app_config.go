@@ -12,11 +12,11 @@ import (
 
 // Defaults values for the configs
 const (
-	DEFAULT_API_PORT    = 3000
+	DEFAULT_API_PORT    = "3000"
 	DEFAULT_LOG_LEVEL   = "info"
 	DEFAULT_LOG_OUTPUT  = ""
 	DEFAULT_DB_HOST     = "localhost"
-	DEFAULT_DB_PORT     = 5432
+	DEFAULT_DB_PORT     = "5432"
 	DEFAULT_DB_USER     = "gorm"
 	DEFAULT_DB_PASSWORD = "S3cretP@ss"
 	DEFAULT_DB_NAME     = "api_db"

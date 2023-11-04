@@ -12,4 +12,4 @@ compile:
 	GOOS=windows GOARCH=amd64 go build -o bin/api-windows-amd64 cmd/cv-api.go
 
 build-image:
-	docker build -f deploy/docker/Dockerfile -t cv-api .
+	docker build -f deploy/docker/Dockerfile -t $(IMAGE_TAG) .
